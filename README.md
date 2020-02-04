@@ -1,2 +1,1 @@
-# doublePendulum
-double pendulum :P)))))))))))))))))))))))))
+# Double Pendulum Simulation
