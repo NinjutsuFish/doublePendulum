@@ -91,7 +91,7 @@ graph2.closePath();
 graph2.fillStyle = "blue";
 graph2.strokeStyle = "blue";    
 
-graph2.scale(75,-750)
+graph2.scale(75,-75)
   
     
     
@@ -228,8 +228,8 @@ function main(){
         graph.stroke();
         graph.closePath()
         graph2.beginPath();
-        graph2.moveTo(py,pv);
-        graph2.lineTo(pendulum2.angle,pendulum2.velocity);
+        graph2.moveTo(py,pv*10);
+        graph2.lineTo(pendulum2.angle,pendulum2.velocity*10);
         graph2.stroke();
         graph2.closePath() 
             
