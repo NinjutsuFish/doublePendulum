@@ -46,6 +46,10 @@ function start(){
 const canvas = document.getElementById('window');
 ctx = canvas.getContext('2d');
 graph = document.getElementById("graph").getContext("2d");
+graph = document.getElementById("graph2").getContext("2d");
+    
+    
+   
 canvas.style.backgroundColor = "white";
 ctx.translate(600,300)
     ctx.scale(1,1)
@@ -68,7 +72,41 @@ graph.fillStyle = "blue"
     
     
 graph.scale(75,-75)
-
+//graph2 
+graph2.fillStyle = "white";
+graph2.strokeStyle = "black";
+graph2.fillRect(0,0,400,400);
+//graph handling
+graph2.translate(200,200);
+graph2.beginPath();
+graph2.moveTo(-10000,0);
+graph2.lineTo(10000,0);
+graph2.stroke();
+graph2.closePath();
+graph2.beginPath();
+graph2.moveTo(0,-10000);
+graph2.lineTo(0,10000);
+graph2.stroke();
+graph2.closePath();
+graph2.fillStyle = "blue"
+    
+    
+graph2.scale(75,-75)
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 var tickMs = 1000/tps;
@@ -135,6 +173,7 @@ pause.oninput = function(){
     
 px = pendulum1.angle;
 py = pendulum2.angle;  
+pv = pendulum2.velocity;
     graph.strokeStyle = "blue"
 setInterval(main,tickMs);
 }
@@ -181,14 +220,23 @@ function main(){
         data.push([pendulum1.angle,pendulum2.angle])
         graph.fillRect( pendulum1.angle, pendulum2.angle, 0.01, 0.01 );
         graph.lineWidth = 0.01;
+        graph2.lineWidth = 0.01;
         if(drawLine){
         graph.beginPath();
         graph.moveTo(px,py);
         graph.lineTo(pendulum1.angle,pendulum2.angle);
         graph.stroke();
         graph.closePath()
+        graph2.beginPath();
+        graph2.moveTo(px,pv);
+        graph2.lineTo(pendulum2.angle,pendulum2.velocity);
+        graph2.stroke();
+        graph2.closePath() 
+            
+            
+            
         }
-        
+        pv = pendulum2.velocity;
         px = pendulum1.angle;
         py = pendulum2.angle;
         }else{
