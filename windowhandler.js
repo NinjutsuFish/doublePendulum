@@ -220,7 +220,7 @@ function main(){
         data.push([pendulum1.angle,pendulum2.angle])
         graph.fillRect( pendulum1.angle, pendulum2.angle, 0.01, 0.01 );
         graph.lineWidth = 0.01;
-        graph2.lineWidth = 0.001;
+        graph2.lineWidth = 0.005;
         if(drawLine){
         graph.beginPath();
         graph.moveTo(px,py);
