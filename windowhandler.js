@@ -223,8 +223,8 @@ function main(){
         graph2.lineWidth = 0.01;
         if(drawLine){
         graph.beginPath();
-        graph.moveTo(px,py);
-        graph.lineTo(pendulum1.angle,pendulum2.angle);
+        graph.moveTo(py,pv);
+        graph.lineTo(pendulum2.angle,pendulum2.velocity);
         graph.stroke();
         graph.closePath()
         graph2.beginPath();
