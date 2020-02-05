@@ -10,9 +10,12 @@ var tickRate;
 var pendulum1;
 var pendulum2;
 var gravity = 1;
-var paused = false;
+var paused = true;
+var data = []
+var graph;
 //functions
-
+var px;
+var py;
 
 //util functions
 
@@ -42,14 +45,35 @@ function start(){
     
 const canvas = document.getElementById('window');
 ctx = canvas.getContext('2d');
+graph = document.getElementById("graph").getContext("2d");
 canvas.style.backgroundColor = "white";
 ctx.translate(600,300)
     ctx.scale(1,1)
-//event handling
+graph.fillStyle = "white";
+graph.strokeStyle = "black";
+graph.fillRect(0,0,400,400);
+//graph handling
+graph.translate(200,200);
+graph.beginPath();
+graph.moveTo(-10000,0);
+graph.lineTo(10000,0);
+graph.stroke();
+graph.closePath();
+graph.beginPath();
+graph.moveTo(0,-10000);
+graph.lineTo(0,10000);
+graph.stroke();
+graph.closePath();
+graph.fillStyle = "blue"
+    
+    
+graph.scale(75,-75)
 
+    
+    
 var tickMs = 1000/tps;
 tickRate = 1/tps;
-setInterval(main,tickMs);
+
     
 //WHERE START CODE GOES    
 pendulum1 = new Pendulum(150,20,20);
@@ -75,13 +99,13 @@ m2Slider.oninput = function() {
 } 
 var a1Slider = document.getElementById("a1");
 a1Slider.oninput = function() {
-    pendulum1.angle = this.value;
+    pendulum1.angle = (this.value*2*Math.PI/100);
     pendulum2.x = pendulum1.returnEndPoint()[0];
     pendulum2.y = pendulum1.returnEndPoint()[1];
 } 
 var a2Slider = document.getElementById("a2");
 a2Slider.oninput = function() {
-  pendulum2.angle = this.value;
+  pendulum2.angle =(this.value*2*Math.PI/100);;
 } 
 var l1Slider = document.getElementById("l1");
 l1Slider.oninput = function() {
@@ -109,7 +133,10 @@ pause.oninput = function(){
 }
     
     
-    
+px = pendulum1.angle;
+py = pendulum2.angle;  
+    graph.strokeStyle = "blue"
+setInterval(main,tickMs);
 }
 
 
@@ -119,19 +146,59 @@ function main(){
     ctx.fillStyle = "white";
     ctx.fillRect(-1000,-1000,2000,2000);
     if( document.getElementById("pause").checked == false){
-
+        var drawLine = true;
   
         pendulum1.accelleration = pendulum1Maths(pendulum1,pendulum2)
-        console.log(pendulum1.accelleration)
+       // console.log(pendulum1.accelleration)
         pendulum1.update();
         pendulum2.x = pendulum1.returnEndPoint()[0];
         pendulum2.y = pendulum1.returnEndPoint()[1];
         pendulum2.accelleration = pendulum2Maths(pendulum1,pendulum2);
-        console.log(pendulum2.accelleration);
+        //console.log(pendulum2.accelleration);
         pendulum2.update();
         //console.log("P1 x: "+pendulum1.x+" y: "+pendulum1.y);
         //console.log("P2 x: "+pendulum2.x+" y: "+pendulum2.y);
+        
+        //angle tuning for data collection
+        if(pendulum1.angle > Math.PI){
+            pendulum1.angle -= 2* Math.PI
+            drawLine = false;
+            
+        }
+        if(pendulum1.angle < -Math.PI){
+            pendulum1.angle += 2* Math.PI
+             drawLine = false;
+        }
+        if(pendulum2.angle > Math.PI){
+            pendulum2.angle -= 2* Math.PI
+             drawLine = false;
+        }
+        if(pendulum2.angle < -Math.PI){
+            pendulum2.angle += 2* Math.PI
+             drawLine = false;
+        }
+        console.log(pendulum2.angle)
+        data.push([pendulum1.angle,pendulum2.angle])
+        graph.fillRect( pendulum1.angle, pendulum2.angle, 0.01, 0.01 );
+        graph.lineWidth = 0.01;
+        if(drawLine){
+        graph.beginPath();
+        graph.moveTo(px,py);
+        graph.lineTo(pendulum1.angle,pendulum2.angle);
+        graph.stroke();
+        graph.closePath()
+        }
+        
+        px = pendulum1.angle;
+        py = pendulum2.angle;
+        }else{
+        pendulum2.x = pendulum1.returnEndPoint()[0];
+        pendulum2.y = pendulum1.returnEndPoint()[1];
+            
+            
+            
 
+            
         }
             
         
@@ -186,8 +253,14 @@ function pendulum1Maths(p1,p2){
     let num3 = -2 * Math.sin(a1 - a2) * m2;
     let num4 = a2_v * a2_v * r2 + a1_v * a1_v * r1 * Math.cos(a1 - a2);
     let den = r1 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2));
+    if(den!=0){
     let a1_a = (num1 + num2 + num3 * num4) / den;
     return a1_a;
+    }else{
+        console.log("p1 issue")
+        return 0;
+    }
+    
 }
 
 function pendulum2Maths(p1,p2){
@@ -206,8 +279,13 @@ function pendulum2Maths(p1,p2){
     let num3 = g * (m1 + m2) * Math.cos(a1);
     let num4 = a2_v * a2_v * r2 * m2 * Math.cos(a1 - a2);
     let den = r2 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2));
+    if(den!=0){
     let a2_a = (num1 * (num2 + num3 + num4)) / den;
     return a2_a;
+    }else{
+        console.log("p2 issue")
+        return 0;
+    }
     
 }
 
@@ -240,11 +318,8 @@ class Pendulum{
     update(){
         this.velocity += this.accelleration;
         this.angle += this.velocity;
-        if(this.angle > 2*Math.PI){
-            this.angle -= 2*Math.PI;
-        }
         
-        
+
         
         
     }
