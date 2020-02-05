@@ -46,7 +46,7 @@ function start(){
 const canvas = document.getElementById('window');
 ctx = canvas.getContext('2d');
 graph = document.getElementById("graph").getContext("2d");
-graph = document.getElementById("graph2").getContext("2d");
+graph2 = document.getElementById("graph2").getContext("2d");
     
     
    
