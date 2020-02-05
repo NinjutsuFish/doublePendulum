@@ -25,7 +25,7 @@ canvas {
 
 <h1 id="title" >DOUBLE PENDULUM</h1><br>
 <h3> double pendulum thing</h3>
-Pasuse? <input type="checkbox" id="pause" value="true"> 
+Pasuse? <input type="checkbox" id="pause" value="true" checked> 
     
 <div class="slidecontainer">
 <input type="range" min="1" max="100" value="50" class="slider" id="m1"> Mass of pendulum 1
@@ -37,11 +37,11 @@ Pasuse? <input type="checkbox" id="pause" value="true">
 </div> 
 
 <div class="slidecontainer">
-<input type="range" min="0" max="6.28318530718" value="3.14159265359" class="slider" id="a1"> Angle of pendulum 1
+<input type="range" min="0" max="100" value="0" class="slider" id="a1"> Angle of pendulum 1
 </div> 
     
 <div class="slidecontainer">
-<input type="range" min="1" max="6.28318530718" value="3.14159265359" class="slider" id="a2"> Angle of pendulum 2
+<input type="range" min="0" max="100" value="0" class="slider" id="a2"> Angle of pendulum 2
 </div>     
 
 <div class="slidecontainer">
@@ -60,7 +60,9 @@ Pasuse? <input type="checkbox" id="pause" value="true">
     
 <br>
 <br>
-<canvas id="window" width="1200" height="800"></canvas>
+<canvas id="window" width="1200" height="800"></canvas> 
+<br>
+<canvas id="graph" width="400" height="400"></canvas>
     
 </body>
 </html>
