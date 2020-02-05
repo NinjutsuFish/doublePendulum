@@ -8,6 +8,7 @@ body {
 canvas {
   background: #f8ff00;
   padding: 0;
+  display: table-column;
   margin: 0 auto;
   margin-bottom: 1rem;
   display: block;
