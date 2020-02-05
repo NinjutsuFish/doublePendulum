@@ -89,9 +89,9 @@ graph2.lineTo(0,10000);
 graph2.stroke();
 graph2.closePath();
 graph2.fillStyle = "blue";
-graph2.strokeStyle = "white";    
+graph2.strokeStyle = "blue";    
 
-graph2.scale(75,-75)
+graph2.scale(75,-750)
   
     
     
